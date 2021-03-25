@@ -1,16 +1,17 @@
 ---
 layout: post
-title:  "github pages 搭建博客 踩坑"
+title:  "github pages 搭建博客"
 date:   2021-03-24 23:02:24 +0800
 
 ---
+### 通过github pages 和jekyll搭建博客
 
 1. github与jekyll [官方文档][doc-url] 
 1. 按照文档搭建完成后有个坑：页面给可以访问到，但是没有css样式，原因为_config.yml文件中的`baseurl: "" # the subpath of your site, e.g. /blog`值需要修改为你的仓库路径
 1. 本地调试：`bundle exec jekyll serve`
    ![截图]({{site.baseurl}}/assets/images/localStart.png)
 
-## markdown 基本语法
+### markdown 基本语法
 
 列表
 ```markdown
