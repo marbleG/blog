@@ -1,0 +1,55 @@
+I"�<h3 id="类加载器">类加载器</h3>
+
+<ol>
+  <li>启动加载器（BootstrapClassLoader）</li>
+  <li>扩展类加载器（ExtClassLoader）</li>
+  <li>应用类加载器（AppClassLoader）</li>
+</ol>
+
+<h4 id="特点">特点</h4>
+
+<ol>
+  <li>双亲委托</li>
+  <li>负责依赖</li>
+  <li>缓存加载</li>
+</ol>
+
+<h6 id="自定义类加载器代码">自定义类加载器（代码）</h6>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">demo</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Base64</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MarbleClassLoader</span> <span class="kd">extends</span> <span class="nc">ClassLoader</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">new</span> <span class="nf">MarbleClassLoader</span><span class="o">().</span><span class="na">findClass</span><span class="o">(</span><span class="s">"jvm.Hello"</span><span class="o">).</span><span class="na">newInstance</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InstantiationException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IllegalAccessException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">findClass</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">ClassNotFoundException</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="n">helloBase64</span> <span class="o">=</span> <span class="s">"yv66vgAAADQAHAoABgAOCQAPABAIABEKABIAEwcAFAcAFQEABjxpbml0PgEAAygpVgEABENvZGUB"</span> <span class="o">+</span>
+                <span class="s">"AA9MaW5lTnVtYmVyVGFibGUBAAg8Y2xpbml0PgEAClNvdXJjZUZpbGUBAApIZWxsby5qYXZhDAAH"</span> <span class="o">+</span>
+                <span class="s">"AAgHABYMABcAGAEALkhlbGxvIENsYXNzIEluaXRpYWxpemVkIHdpdGggTWFyYmxlQ2xhc3Nsb2Fk"</span> <span class="o">+</span>
+                <span class="s">"ZXIHABkMABoAGwEACWp2bS9IZWxsbwEAEGphdmEvbGFuZy9PYmplY3QBABBqYXZhL2xhbmcvU3lz"</span> <span class="o">+</span>
+                <span class="s">"dGVtAQADb3V0AQAVTGphdmEvaW8vUHJpbnRTdHJlYW07AQATamF2YS9pby9QcmludFN0cmVhbQEA"</span> <span class="o">+</span>
+                <span class="s">"B3ByaW50bG4BABUoTGphdmEvbGFuZy9TdHJpbmc7KVYAIQAFAAYAAAAAAAIAAQAHAAgAAQAJAAAA"</span> <span class="o">+</span>
+                <span class="s">"HQABAAEAAAAFKrcAAbEAAAABAAoAAAAGAAEAAAADAAgACwAIAAEACQAAACUAAgAAAAAACbIAAhID"</span> <span class="o">+</span>
+                <span class="s">"tgAEsQAAAAEACgAAAAoAAgAAAAUACAAGAAEADAAAAAIADQ=="</span><span class="o">;</span>
+        <span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="n">decode</span><span class="o">(</span><span class="n">helloBase64</span><span class="o">);</span>
+        <span class="k">return</span> <span class="nf">defineClass</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">bytes</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">bytes</span><span class="o">.</span><span class="na">length</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">byte</span><span class="o">[]</span> <span class="nf">decode</span><span class="o">(</span><span class="nc">String</span> <span class="n">base64</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">Base64</span><span class="o">.</span><span class="na">getDecoder</span><span class="o">().</span><span class="na">decode</span><span class="o">(</span><span class="n">base64</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+:ET

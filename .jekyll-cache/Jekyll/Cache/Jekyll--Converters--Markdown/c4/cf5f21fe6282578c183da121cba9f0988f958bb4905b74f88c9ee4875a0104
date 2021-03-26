@@ -1,0 +1,33 @@
+I"�<h3 id="通过github-pages-和jekyll搭建博客">通过github pages 和jekyll搭建博客</h3>
+
+<ol>
+  <li>github与jekyll <a href="https://docs.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll">官方文档</a></li>
+  <li>按照文档搭建完成后有个坑：页面给可以访问到，但是没有css样式，原因为_config.yml文件中的<code class="language-plaintext highlighter-rouge">baseurl: "" # the subpath of your site, e.g. /blog</code>值需要修改为你的仓库路径</li>
+  <li>本地调试：<code class="language-plaintext highlighter-rouge">bundle exec jekyll serve</code>
+<img src="/assets/images/localStart.png" alt="截图" /></li>
+</ol>
+
+<h3 id="markdown-基本语法">markdown 基本语法</h3>
+
+<p>列表</p>
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|表头1|表头2|
+|:----|----:|
+|一列|二列|
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">表头1</th>
+      <th style="text-align: right">表头2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">一列</td>
+      <td style="text-align: right">二列</td>
+    </tr>
+  </tbody>
+</table>
+
+:ET

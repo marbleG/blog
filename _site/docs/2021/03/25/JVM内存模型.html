@@ -1,0 +1,57 @@
+<h3 id="jvm-内存结构">JVM 内存结构</h3>
+<p>1.每个线程只能访问自己的线程栈<br />
+2.所有引用类型的java对像，都会存储在堆内存中<br />
+3.堆内存加线程栈-&gt;堆栈<br />
+4.方法中使用的原生数据类型和对象引用地址在栈上存储;<br />
+5.对象、对象成员与类定义、静态变量在堆上<br />
+6.堆内存又称为”共享堆”；堆中的所有对象，可以被所有线程访问，只要他们能拿到对象的引用地址<br />
+<img src="/assets/images/jvm.png" alt="jvm内存结构" /></p>
+<h3 id="jvm-内存整体结构">JVM 内存整体结构</h3>
+<p><img src="/assets/images/jvm1.png" alt="jvm内存整体架构" /></p>
+<h3 id="jvm-堆内存结构">JVM 堆内存结构</h3>
+<p>1.S0和S1在任意时刻，一个是空的<br />
+2.类的元数据，常量池常量，方法区，jit<br />
+3.java8将堆中的持久代换名字为Metaspace(元数据)<br />
+<img src="/assets/images/jvm3.png" alt="JVM 堆内存结构" /></p>
+
+<h3 id="jmm">JMM</h3>
+<p><img src="/assets/images/jmm.png" alt="img.png" /></p>
+
+<h3 id="jvm启动参数">JVM启动参数</h3>
+<p>查询命令<br />
+<code class="language-plaintext highlighter-rouge">jps -v</code><br />
+<code class="language-plaintext highlighter-rouge">jps -m</code></p>
+<hr />
+<p>启动命令<br />
+<code class="language-plaintext highlighter-rouge">java [options] classname [args]</code><br />
+<code class="language-plaintext highlighter-rouge">java [options] -jar filename [args]</code><br />
+启动参数</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-</code>开头：标准参数，向后兼容</li>
+  <li><code class="language-plaintext highlighter-rouge">-D</code>开头：设置系统属性</li>
+  <li><code class="language-plaintext highlighter-rouge">-X</code>开头：非标准参数，不保证向后兼容，通过<code class="language-plaintext highlighter-rouge">java -X</code> 查看</li>
+  <li><code class="language-plaintext highlighter-rouge">-XX</code>开头：非稳定参数，专门用于控制JVM的行为
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">-XX:+-Flags</code>形式，是对布尔值进行开关</li>
+      <li><code class="language-plaintext highlighter-rouge">-XX:key=value</code>形式，指定某个选项的值</li>
+    </ul>
+  </li>
+</ul>
+
+<p>分类<br />
+1.系统属性参数 <br />
+<img src="/assets/images/option1.png" alt="img.png" />
+2.运行模式参数<br />
+<img src="/assets/images/option2.png" alt="img.png" />
+3.堆内存设置参数<br />
+<img src="/assets/images/option3.png" alt="img.png" />
+资源隔离
+-Xmx：整个内存的60%-80%
+4.GC设置参数<br />
+<img src="/assets/images/option4.png" alt="img.png" />
+java8 默认的GC是：
+5.分析诊断参数<br />
+<img src="/assets/images/option5.png" alt="img.png" />
+6.JavaAgent参数<br />
+<img src="/assets/images/option6.png" alt="img.png" /></p>
+
