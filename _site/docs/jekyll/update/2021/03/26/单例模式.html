@@ -1,0 +1,100 @@
+<h5 id="单例模式是一种对象创建模式确保系统中一个类只有一个实例">单例模式是一种对象创建模式，确保系统中一个类只有一个实例</h5>
+
+<p>优点:<br />
+1.省略对象创建的时间<br />
+2.内存使用频率减少，减轻GC压力，缩短GC时间</p>
+
+<p>参与者</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">角色</th>
+      <th style="text-align: left">作用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">单例类</td>
+      <td style="text-align: left">提供单例工厂，返回单例</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">使用者</td>
+      <td style="text-align: left">获取并使用单例类</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p>简单代码</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.example.demo</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SingleTon</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="nf">SingleTon</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"SingleTon is create"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">SingleTon</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SingleTon</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">SingleTon</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"createString"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>缺点：调用createString方法时，触发构造函数<br />
+懒加载</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.example.demo</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">LazySingleTon</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nf">LazySingleTon</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"LazySingleTon is create"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">LazySingleTon</span> <span class="n">instance</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="nc">LazySingleTon</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LazySingleTon</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>添加synchronized防止多线程创建多个对象<br />
+缺点:<br />
+1.多线程情况下，耗时较长</p>
+
+<p>再次改造</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.example.demo</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">StaticSingleTon</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nf">StaticSingleTon</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"StaticSingleTon is create"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SingleTonHolder</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="nc">StaticSingleTon</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StaticSingleTon</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="nc">StaticSingleTon</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nc">SingleTonHolder</span><span class="o">.</span><span class="na">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"createString"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
