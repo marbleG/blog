@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 
 public class HttpServer01 {
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8803);
+        ServerSocket serverSocket = new ServerSocket(8801);
         while (true) {
             try {
                 Socket accept = serverSocket.accept();
@@ -21,7 +21,8 @@ public class HttpServer01 {
 
     public static void service(Socket socket) {
         try {
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream(),true);
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
+            Thread.sleep(5);
             printWriter.println("HTTP/1.1 200 OK");
             printWriter.println("Content-Type:text/html;charset=utf-8");
             String body = "hello,nio1";
@@ -33,6 +34,8 @@ public class HttpServer01 {
             printWriter.close();
             socket.close();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

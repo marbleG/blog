@@ -11,17 +11,16 @@ import java.util.concurrent.Executors;
 /**
  * 多线程客户端
  */
-public class HttpServer02 {
+public class HttpServer03 {
 
     public static void main(String[] args) throws IOException {
+        ExecutorService executors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 2);
 
         System.out.println(Runtime.getRuntime().availableProcessors());
-        ServerSocket serverSocket = new ServerSocket(8802);
+        ServerSocket serverSocket = new ServerSocket(8803);
         while (true) {
             final Socket accept = serverSocket.accept();
-            new Thread(() -> {
-                service(accept);
-            }).start();
+            executors.execute(() -> service(accept));
         }
     }
 
@@ -29,7 +28,6 @@ public class HttpServer02 {
         try {
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
             Thread.sleep(5);
-
             printWriter.println("HTTP/1.1 200 OK");
             printWriter.println("Content-Type:text/html;charset=utf-8");
             String body = "hello,nio2";
@@ -40,7 +38,9 @@ public class HttpServer02 {
             printWriter.write(body);
             printWriter.close();
             socket.close();
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
