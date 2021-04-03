@@ -15,7 +15,7 @@ public class NettyHttpServer {
     public static void main(String[] args) throws InterruptedException {
 
         int port = 8804;
-
+        //主从模式
         EventLoopGroup bossGroup = new NioEventLoopGroup(2);
         EventLoopGroup workerGroup = new NioEventLoopGroup(16);
 
