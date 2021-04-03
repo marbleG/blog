@@ -16,6 +16,7 @@ import static io.netty.handler.codec.http.HttpResponseStatus.NO_CONTENT;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+//读取客户端请求
 public class HttpHandler extends ChannelInboundHandlerAdapter {
 
     @Override
@@ -30,8 +31,11 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
             FullHttpRequest fullRequest = (FullHttpRequest) msg;
             String uri = fullRequest.uri();
             //logger.info("接收到的请求url为{}", uri);
+            //路由或mapping
             if (uri.contains("/test")) {
-                handlerTest(fullRequest, ctx);
+                handlerTest(fullRequest, ctx, "hello,marble");
+            } else {
+                handlerTest(fullRequest, ctx, "hello,others");
             }
 
         } catch (Exception e) {
@@ -41,10 +45,10 @@ public class HttpHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
-    private void handlerTest(FullHttpRequest fullRequest, ChannelHandlerContext ctx) {
+    private void handlerTest(FullHttpRequest fullRequest, ChannelHandlerContext ctx, String msg) {
         FullHttpResponse response = null;
         try {
-            String value = null; // "hello,kimmking"; // 对接上次作业的httpclient或者okhttp请求另一个url的响应数据
+            String value = msg; // "hello,kimmking"; // 对接上次作业的httpclient或者okhttp请求另一个url的响应数据
 
 //            httpGet ...  http://localhost:8801
 //            返回的响应，"hello,nio";

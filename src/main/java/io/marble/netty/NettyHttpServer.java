@@ -35,7 +35,7 @@ public class NettyHttpServer {
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new HttpInitializer());
 
-            Channel ch = b.bind(port).sync().channel();
+            Channel ch = b.bind(port).sync().channel();//绑定端口启动服务
             System.out.println("开启netty http服务器，监听地址和端口为 http://127.0.0.1:" + port + '/');
             ch.closeFuture().sync();
         } finally {
