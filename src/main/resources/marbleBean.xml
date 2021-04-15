@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="girl1" class="io.marble.spring.Girl">
+        <property name="age" value="18"/>
+        <property name="name" value="girlName1"/>
+    </bean>
+    <bean id="girl2" class="io.marble.spring.Girl">
+        <property name="age" value="18"/>
+        <property name="name" value="girlName2"/>
+    </bean>
+</beans>
